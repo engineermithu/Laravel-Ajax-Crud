@@ -7,6 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.33/sweetalert2.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.33/sweetalert2.all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.33/sweetalert2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.33/sweetalert2.all.min.js"></script>
+
     <!-- Bootstrap CSS v5.0.2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     <!--Button icon-->
@@ -100,7 +106,7 @@
                     data = data + "<td>"+value.institute+"</td>"
                     data = data + "<td>"
                     data = data + "<button class='btn btn-info text-light' onclick='editData("+value.id+")'>Edit</button>"
-                    data = data + "<button class='btn btn-danger m-2'>  Delete</button>"
+                    data = data + "<button class='btn btn-danger m-2' onclick='deleteData("+value.id+")'>  Delete</button>"
                     data = data + "</td>"
                     data = data + "</tr>"
                 })
@@ -116,8 +122,8 @@
         $('#institute').val('');
     }
     function addData(){
-        var name    =   $('#name').val();
-        var title   =   $('#title').val();
+        var name        =   $('#name').val();
+        var title       =   $('#title').val();
         var institute   =   $('#institute').val();
 
         $.ajax({
@@ -128,6 +134,19 @@
             success: function (data){
                 allData();
                 clearData();
+                // Alert
+              const Msg = Swal.mixin({
+                    toast:'true',
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1600
+                });
+              Msg.fire({
+                  type: 'success',
+                  title: 'Data Added Successfully'
+              })
+                // End Alert
                 console.log('Successfully Data Added');
             }
         })
@@ -169,11 +188,95 @@
                 $('#updateB').hide();
                 allData();
                 clearData();
+                // Alert
+                const Msg = Swal.mixin({
+                    toast:'true',
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1600
+                });
+                Msg.fire({
+                    type: 'success',
+                    title: 'Data Updated Successfully'
+                })
+                // End Alert
                 console.log('Successfully Data Update');
             }
         })
-
     }
+
+    function deleteData(id){
+        // swal({
+        //     title:"Are you shure to Delete",
+        //     text:"Once deleted , you will not able to recover this data!",
+        //     icon:"warning",
+        //     buttons:true,
+        //     dangerMode: true,
+        // })
+        //     .then((willDelete) => {
+        //         if(willDelete){
+        //             $.ajax({
+        //                 type: "GET",
+        //                 dataType: "json",
+        //                 url: "/teacher/destroy/"+id,
+        //                 success:function (data){
+        //                     clearData();
+        //                     allData();
+        //                     // Alert
+        //                     const Msg = Swal.mixin({
+        //                         toast:'true',
+        //                         position: 'top-end',
+        //                         icon: 'success',
+        //                         showConfirmButton: false,
+        //                         timer: 1600
+        //                     });
+        //                     Msg.fire({
+        //                         type: 'success',
+        //                         title: 'Data Updated Successfully'
+        //                     })
+        //                     // End Alert
+        //                 }
+        //             });
+        //         }else{
+        //             swal("Canceled");
+        //         }
+        //     })
+
+
+        $.ajax
+        ({
+            type: "GET",
+            dataType: "json",
+            url: "/teacher/destroy/"+id,
+            success:function (data){
+                clearData();
+                allData();
+                // Alert
+                const Msg = Swal.mixin({
+                    toast:'true',
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1600
+                });
+                Msg.fire({
+                    type: 'success',
+                    title: 'Data Deleted Successfully'
+                })
+                // End Alert
+            }
+        });
+
+
+
+
+}
+
+
+
+
+
 
 </script>
 

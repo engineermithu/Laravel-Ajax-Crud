@@ -48,4 +48,12 @@ class TeacherController extends Controller
     }
 
 
+  public function deleteData($id){
+
+        $data = Teacher::findOrFail($id)->delete();
+
+        return response()->json($data);
+    }
+
+
 }
